@@ -1,0 +1,11 @@
+{
+    "name": "alexa-to-discord",
+    "version": "1.0.0",
+    "description": "Alexa-to-Discord allows you to control a music bot in Discord directly from your Alexa device!",
+    "main": "bot.js",
+    "author": "Jackson Ekis",
+    "dependencies": {
+        "discord.io": "https://github.com/woor/discord.io/tarball/gateway_v6",
+        "winston": "^3.1.0"
+    }
+}
