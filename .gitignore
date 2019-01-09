@@ -61,3 +61,5 @@ typings/
 .next
 
 Discord_Bot/auth\.json
+
+*.mp3
