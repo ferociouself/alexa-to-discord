@@ -1,52 +1,8 @@
 var logger = require('winston');
-var Fuse = require('fuse.js');
 var fs = require('fs');
-
-var sounds = [
-    {
-        'title': 'Airhorn',
-        'path': './sounds/airhorn.mp3'
-    },
-    {
-        'title': 'Bruh',
-        'path': './sounds/bruh.mp3'
-    },
-    {
-        'title': 'Impossible',
-        'path': './sounds/impossible.mp3'
-    },
-    {
-        'title': 'Big Meaty Claws',
-        'path': './sounds/meaty.mp3'
-    },
-    {
-        'title': 'Oof',
-        'path': './sounds/oof.mp3'
-    },
-    {
-        'title': 'Price is Right Losing Horn',
-        'path': './sounds/horn.mp3'
-    },
-    {
-        'title': 'Wilhelm Scream',
-        'path': './sounds/wilhelm.mp3'
-    },
-    {
-        'title': 'X Files Theme',
-        'path': './sounds/x_files.mp3'
-    }
-]
-
-var options = {
-    keys: ['title'],
-    id: 'path'
-}
-
-var fuse = new Fuse(sounds, options);
+var search = require('./sound_search');
 
 function send(channelID, messageStr) {
-    messageStr = JSON.stringify(messageStr);
-    channelID = JSON.stringify(channelID);
     logger.info("Attempting to send " + messageStr + " to " + channelID);
     bot.sendMessage({
         to: channelID,
@@ -115,15 +71,12 @@ function leave(channelID, user, userID) {
 function play(channelID, user, userID, sound) {
     logger.info("Attempting to find " + sound);
 
-    var sound_path_list = fuse.search(sound);
-    if (sound_path_list.length > 0) {
-        var sound_path = sound_path_list[0];
-        logger.info("Sound " + JSON.stringify(sound_path) + " found.");
-        send(channelID, "Playing " + sound_path + "...");
-    } else {
-        logger.error("Sound " + sound + " not found!");
+    var sound_path = search.findSound(sound);
+    if (!sound_path) {
         send(channelID, "Could not find " + sound + "!");
         return;
+    } else {
+        send(channelID, "Playing " + sound_path + "...");
     }
 
     var user_voice_channel = getVoiceChannelID(getServerID(channelID), userID);

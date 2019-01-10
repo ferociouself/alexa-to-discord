@@ -2,6 +2,9 @@ var Discord = require('discord.io');
 var logger = require('winston');
 var auth = require('./auth.json');
 var commands = require('./bot_commands');
+var search = require('./sound_search');
+
+const SOUND_DIRECTORY_PATH = "./sounds/";
 
 logger.remove(logger.transports.Console);
 logger.add(new logger.transports.Console, {
@@ -24,13 +27,14 @@ bot.on('ready', function (evt) {
     logger.info('Connected');
     logger.info('Logged in as: ');
     logger.info(bot.username + ' - (' + bot.id + ')');
+    search.populateTable(SOUND_DIRECTORY_PATH);
 });
 
 bot.on('message', function(user, userID, channelID, message, evt) {
     // Our bot needs to know if it will execute a command
     // It will listen for messages that start with '!'
 
-    if (message.length > 1 && message.substring(0, 1) == '!') {
+    if (message.length > 1 && message.substring(0, 1) == '-') {
         var args = message.substring(1).split(' ');
 
         logger.info("Received message with arguments " + JSON.stringify(args));
