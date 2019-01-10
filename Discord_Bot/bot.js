@@ -5,6 +5,7 @@ var commands = require('./bot_commands');
 var search = require('./sound_search');
 
 const SOUND_DIRECTORY_PATH = "./sounds/";
+const ADMIN_ID = "138884634220953600";
 
 logger.remove(logger.transports.Console);
 logger.add(new logger.transports.Console, {
@@ -62,7 +63,14 @@ bot.on('message', function(user, userID, channelID, message, evt) {
                     commands.send(channelID, "No sound title provided! Please provide a sound name when trying to play with \"!play\"");
                     break;
                 }
-                commands.play(channelID, user, userID, args[0].toString());
+                commands.play(channelID, user, userID, args.join(" "));
+                break;
+            case 'refresh':
+                if (userID == ADMIN_ID) {
+                    search.refreshTable(SOUND_DIRECTORY_PATH);
+                } else {
+                    commands.send(channelID, "Only an administrator of this bot may perform this action!");
+                }
                 break;
         }
     }

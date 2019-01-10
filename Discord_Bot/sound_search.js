@@ -3,9 +3,7 @@ var fs = require('fs');
 var logger = require('winston');
 var path = require('path');
 
-var sounds = [
-    
-]
+var sounds = [];
 
 var options = {
     keys: ['title'],
@@ -29,12 +27,16 @@ function populateTable(sound_directory_path) {
                 }
 
                 if (stat.isFile()) {
-                    logger.info("Sound file found!");
                     addSound(file, full_path);
                 }
             });
         });
     })
+}
+
+function refreshTable(sound_directory_path) {
+    sounds = [];
+    populateTable(sound_directory_path);
 }
 
 function addSound(sound_file, full_path) {
@@ -66,3 +68,4 @@ function findSound(sound_title) {
 
 module.exports.populateTable = populateTable;
 module.exports.findSound = findSound;
+module.exports.refreshTable = refreshTable;
