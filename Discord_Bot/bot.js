@@ -31,6 +31,11 @@ bot.on('ready', function (evt) {
     search.populateTable(SOUND_DIRECTORY_PATH);
 });
 
+bot.on('disconnect', function(errMsg, code) {
+    logger.error("Bot disconnected! [" + code + "] " + errMsg);
+    bot.connect();
+})
+
 bot.on('message', function(user, userID, channelID, message, evt) {
     // Our bot needs to know if it will execute a command
     // It will listen for messages that start with '!'
@@ -51,9 +56,7 @@ bot.on('message', function(user, userID, channelID, message, evt) {
                 })
                 break;
             case 'join':
-                commands.join(channelID, user, userID, function(error, events) {
-                    logger.error(error + ": " + events);
-                });
+                commands.join(channelID, user, userID);
                 break;
             case 'leave':
                 commands.leave(channelID, user, userID);
@@ -63,7 +66,7 @@ bot.on('message', function(user, userID, channelID, message, evt) {
                     commands.send(channelID, "No sound title provided! Please provide a sound name when trying to play with \"!play\"");
                     break;
                 }
-                commands.play(channelID, user, userID, args.join(" "));
+                commands.play(channelID, userID, args.join(" "));
                 break;
             case 'refresh':
                 if (userID == ADMIN_ID) {
@@ -71,6 +74,16 @@ bot.on('message', function(user, userID, channelID, message, evt) {
                 } else {
                     commands.send(channelID, "Only an administrator of this bot may perform this action!");
                 }
+                break;
+            case 'search':
+                if (args.length == 0) {
+                    commands.send(channelID, "No YouTube search term provided! Please provide a search term.");
+                } else {
+                    commands.search(channelID, userID, args.join(" "));
+                }
+                break;
+            case 'skip':
+                commands.skip(channelID, userID);
                 break;
         }
     }
