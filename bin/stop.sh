@@ -1,3 +1,2 @@
-if [ -f node.pid ]; then
-  kill cat node.pid
-fi
+#!/usr/bin/env bash
+forever stopall

@@ -1,0 +1,8 @@
+{
+  // Comments are supported
+  "uid": "alexa-to-discord",
+  "append": true,
+  "watch": false,
+  "script": "bot.js",
+  "sourceDir": "/home/ubuntu/alexa-to-discord"
+}

@@ -8,3 +8,4 @@ export NVM_DIR="$HOME/.nvm"
 
 nvm use --delete-prefix v10.15.0
 npm install
+npm install forever -g
