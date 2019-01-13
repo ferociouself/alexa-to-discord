@@ -17,11 +17,14 @@ hooks:
       runas: ubuntu
       
   BeforeInstall:
-    - location: bin/install.sh
-      timeout: 300
+    - location: bin/clean-instance.sh
+      timeout: 10
       runas: ubuntu
 
   AfterInstall:
+    - location: bin/install.sh
+      timeout: 300
+      runas: ubuntu
     - location: bin/install-pkgs.sh
       timeout: 1200
       runas: ubuntu
