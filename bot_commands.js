@@ -1,7 +1,6 @@
-var logger = require('winston');
 var fs = require('fs');
-var sound_search = require('./sound_search');
-var youtube_search = require('./youtube_search');
+var sound_search = require('./search/sound_search');
+var youtube_search = require('./search/youtube_search');
 const youtube_stream = require('youtube-audio-stream');
 
 function send(channelID, messageStr) {
@@ -51,7 +50,7 @@ function join(channelID, user, userID) {
                     logger.error(error.toString());
                     return;
                 }
-    
+
                 bot.channels[user_voice_channel].stream = stream;
             })
         });
@@ -121,11 +120,11 @@ function play(channelID, userID, sound) {
                 logger.error(error.toString());
                 return;
             }
-    
+
             fs.createReadStream(sound_path).pipe(stream, {end: false});
 
             bot.channels[user_voice_channel].stream = stream;
-    
+
             stream.on('done', function() {
                 logger.info("Finished playing sound " + sound_path);
                 bot.channels[user_voice_channel].stream = undefined;
@@ -174,11 +173,11 @@ async function search(channelID, userID, term) {
                 logger.error(error.toString());
                 return;
             }
-    
+
             youtube_stream(youtube_url).pipe(stream, {end: false});
 
             bot.channels[user_voice_channel].stream = stream;
-    
+
             stream.on('done', function() {
                 logger.info("Finished playing sound " + youtube_info.snippet.title);
                 bot.channels[user_voice_channel].stream = undefined;
@@ -188,7 +187,7 @@ async function search(channelID, userID, term) {
     })
 }
 
-function skip(channelID, userID) {
+function stop(channelID, userID) {
     var user_voice_channel = getVoiceChannelID(getServerID(channelID), userID);
 
     var channel = bot.channels[user_voice_channel];
@@ -206,4 +205,4 @@ module.exports.join = join;
 module.exports.leave = leave;
 module.exports.play = play;
 module.exports.search = search;
-module.exports.skip = skip;
+module.exports.stop = stop;

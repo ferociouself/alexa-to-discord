@@ -1,0 +1,35 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /home/ubuntu/alexa-to-discord
+
+permissions:
+  - object: /
+    pattern: "**"
+    owner: ubuntu
+    group: ubuntu
+      
+hooks:
+  ApplicationStop:
+    - location: bin/stop.sh
+      timeout: 30
+      runas: ubuntu
+      
+  BeforeInstall:
+    - location: bin/install.sh
+      timeout: 300
+      runas: ubuntu
+
+  AfterInstall:
+    - location: bin/install-pkgs.sh
+      timeout: 1200
+      runas: ubuntu
+    - location: bin/download-statics.sh
+      timeout: 300
+      runas: ubuntu
+
+  ApplicationStart:
+    - location: bin/app-start.sh
+      timeout: 60
+      runas: ubuntu

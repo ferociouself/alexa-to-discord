@@ -1,6 +1,5 @@
 const {google} = require('googleapis');
-const secret = require('./auth.json');
-const logger = require('winston');
+const secret = require('../auth.json');
 
 const youtube = google.youtube({
     version: 'v3',
@@ -12,13 +11,17 @@ async function runSearch(search_text) {
         part: 'id, snippet',
         q: search_text
     });
-    //logger.info(JSON.stringify(res.data));
-    logger.info(JSON.stringify(res.data.items[0]));
-    const items = res.data.items;
-    if (items.length > 0) {
-        return items[0];
-    }
-    return;
+    logger.info(JSON.stringify(res.data.items));
+    var ret = undefined;
+    res.data.items.some(function(item) {
+        logger.info("Item kind: " + item.id.kind);
+        if (item.id.kind === "youtube#video") {
+            logger.info("Video found in results list!: " + item.id.kind);
+            ret = item;
+            return true;
+        }
+    });
+    return ret;
 }
 
 async function findVideo(search_text) {

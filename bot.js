@@ -1,18 +1,11 @@
 var Discord = require('discord.io');
-var logger = require('winston');
 var auth = require('./auth.json');
 var commands = require('./bot_commands');
-var search = require('./sound_search');
+var search = require('./search/sound_search');
+var logger = require('./logger').logger;
 
 const SOUND_DIRECTORY_PATH = "./sounds/";
 const ADMIN_ID = "138884634220953600";
-
-logger.remove(logger.transports.Console);
-logger.add(new logger.transports.Console, {
-    colorize: true
-});
-
-logger.level = 'debug';
 
 process.on("unhandledRejection", logger.error);
 
@@ -23,6 +16,7 @@ var bot = new Discord.Client({
 });
 
 global.bot = bot;
+global.logger = logger;
 
 bot.on('ready', function (evt) {
     logger.info('Connected');
@@ -82,8 +76,8 @@ bot.on('message', function(user, userID, channelID, message, evt) {
                     commands.search(channelID, userID, args.join(" "));
                 }
                 break;
-            case 'skip':
-                commands.skip(channelID, userID);
+            case 'stop':
+                commands.stop(channelID, userID);
                 break;
         }
     }

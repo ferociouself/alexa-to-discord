@@ -1,6 +1,5 @@
 var Fuse = require('fuse.js');
 var fs = require('fs');
-var logger = require('winston');
 var path = require('path');
 
 var sounds = [];
