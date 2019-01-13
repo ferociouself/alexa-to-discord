@@ -8,4 +8,4 @@ export NVM_DIR="$HOME/.nvm"
 
 nvm use --delete-prefix v10.15.0
 node -v
-npm start > /dev/null 2> /dev/null < /dev/null & echo $! > node.pid
+node bot.js > /dev/null 2> /dev/null < /dev/null &
