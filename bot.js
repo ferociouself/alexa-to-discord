@@ -6,6 +6,7 @@ var logger = require('./logger').logger;
 
 const SOUND_DIRECTORY_PATH = "./sounds/";
 const ADMIN_ID = "138884634220953600";
+const ACTIVATION_CHARACTER = '-';
 
 process.on("unhandledRejection", logger.error);
 
@@ -17,12 +18,14 @@ var bot = new Discord.Client({
 
 global.bot = bot;
 global.logger = logger;
+global.ACTIVATION_CHARACTER = ACTIVATION_CHARACTER;
 
 bot.on('ready', function (evt) {
   logger.info('Connected');
   logger.info('Logged in as: ');
   logger.info(bot.username + ' - (' + bot.id + ')');
   search.populateTable(SOUND_DIRECTORY_PATH);
+  bot.setPresence({game: {name: "-help"}});
 });
 
 bot.on('disconnect', function(errMsg, code) {
@@ -34,7 +37,7 @@ bot.on('message', function(user, userID, channelID, message, evt) {
   // Our bot needs to know if it will execute a command
   // It will listen for messages that start with '!'
 
-  if (message.length > 1 && message.substring(0, 1) == '-') {
+  if (message.length > 1 && message.substring(0, 1) == ACTIVATION_CHARACTER) {
     var args = message.substring(1).split(' ');
 
     logger.info("Received message with arguments " + JSON.stringify(args));

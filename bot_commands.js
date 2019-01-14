@@ -204,12 +204,12 @@ function help(userID) {
   const help_str = "Hi! Thanks for using the Alexa-to-Discord bot, a work in progress"
   + "bot that aims to allow you play music and sounds in Discord voice channels using just your voice!\n"
   + "For now, Alexa-to-Discord functions through simple text commands, listed below:\n"
-  + "-help: Displays this message to the user who called me in a private message.\n"
-  + "-join: Joins the Voice Channel currently holding the user who sent this command. If the user is not in a voice channel, this command will fail.\n"
-  + "-leave: Leaves the Voice Channel currently holding the user who sent this command, if this bot is already in it.\n"
-  + "-play <sound>: Plays from a source of sounds inside this bot, performing a fuzzy search to find the most appropriate sound.\n"
-  + "-search <search terms...>: Searches for a video on YouTube given the search terms.\n"
-  + "-stop: Stops the audio currently playing.";
+  + ACTIVATION_CHARACTER + "help: Displays this message to the user who called me in a private message.\n"
+  + ACTIVATION_CHARACTER + "join: Joins the Voice Channel currently holding the user who sent this command. If the user is not in a voice channel, this command will fail.\n"
+  + ACTIVATION_CHARACTER + "leave: Leaves the Voice Channel currently holding the user who sent this command, if this bot is already in it.\n"
+  + ACTIVATION_CHARACTER + "play <sound>: Plays from a source of sounds inside this bot, performing a fuzzy search to find the most appropriate sound.\n"
+  + ACTIVATION_CHARACTER + "search <search terms...>: Searches for a video on YouTube given the search terms.\n"
+  + ACTIVATION_CHARACTER + "stop: Stops the audio currently playing.";
 
   send(userID, help_str);
 }

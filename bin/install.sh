@@ -6,6 +6,6 @@ set -e
 curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.32.0/install.sh | bash
 . $HOME/.nvm/nvm.sh
 
-# add nodejs to yum
+# add nodejs
 nvm install v10.15.0
 nvm use --delete-prefix v10.15.0
