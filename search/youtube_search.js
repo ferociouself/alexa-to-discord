@@ -28,11 +28,10 @@ async function findVideo(search_text) {
   return await runSearch(search_text).then(function (result) {
     logger.info("Search finished!");
     if (!result) {
-      logger.error("Could not find any results for search: " + search_text);
+      logger.warn("Could not find any results for search: " + search_text);
       return;
     } else {
       logger.info("Found results for search: " + search_text + ". Returning the first result.");
-      logger.debug("Result:\n" + JSON.stringify(result));
       return result;
     }
   });

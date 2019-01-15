@@ -60,7 +60,7 @@ function findSound(sound_title) {
     logger.info("Sound " + JSON.stringify(sound_path) + " found.");
     return sound_path;
   } else {
-    logger.error("Sound " + sound_title + " not found!");
+    logger.warn("Sound " + sound_title + " not found!");
     return;
   }
 }
