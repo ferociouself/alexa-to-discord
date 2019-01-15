@@ -39,7 +39,7 @@ function join(channelID, user, userID) {
       logger.info("Channel name is " + channel.name);
       bot.joinVoiceChannel(user_voice_channel,  function(error, events) {
         if (error) {
-          logger.error(error + ": " + events);
+          logger.error(error + ": " + JSON.stringify(events));
           return;
         }
 
@@ -76,7 +76,7 @@ function leave(channelID, user, userID) {
     });
     bot.leaveVoiceChannel(user_voice_channel, (error, events) => {
       if (error) {
-        logger.error(error + ": " + events);
+        logger.error(error + ": " + JSON.stringify(events));
       }
 
       bot.channels[user_voice_channel].stream = undefined;
@@ -110,7 +110,7 @@ function play(channelID, userID, sound) {
         to: channelID,
         message: "Sorry, I couldn't connect to your voice channel!"
       });
-      return logger.error(error + ": " + events);
+      return logger.error(error + ": " + JSON.stringify(events));
     }
 
     logger.info("Voice channel with ID " + user_voice_channel + " has been joined.");
